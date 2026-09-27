@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מבזק — חדשות, כלכלה, ספורט ותרבות</title>
+<meta name="description" content="אתר חדשות בדיוני — סביבת הדגמה עבור פרוטוטייפ LiteTalk.">
+
+<!--
+  ===========================================================================
+  PAGE 1 · MOCK NEWS SITE  (prototype environment only)
+  ---------------------------------------------------------------------------
+  A generic, fictional Hebrew news site ("מבזק"). It exists only to simulate
+  the context in which a reader meets the LiteTalk advertisement.
+  No real brand, logo or content is reproduced.
+
+  The editorial content is deliberately quiet — muted placeholders, no photos —
+  so it never competes with the advertising creative.
+
+  THE AD SLOT
+    · label "פרסומת" above the creative
+    · creative = litetalk-banner.png, used exactly as supplied (1940x500 @2x)
+    · displayed at width:100% / max-width:970px / height:auto
+    · the whole banner is one link -> landing.html
+    · no extra CTA outside the image
+  ===========================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --navy:#101C33;
+  --navy-2:#1B2B49;
+  --ink:#12151C;
+  --ink-2:#5A6273;
+  --line:#E3E6EC;
+  --page:#FFFFFF;
+  --grey:#EFF0F3;      /* the advertising band */
+  --hl:#FFE03D;        /* editorial highlight */
+  --accent:#0E62C7;
+  --wrap:1240px;
+  --pad:18px;
+}
+@media (min-width:768px){ :root{ --pad:28px } }
+@media (min-width:1200px){ :root{ --pad:40px } }
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--page);color:var(--ink);
+  font-family:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3,p,ul{margin:0}
+ul{padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--pad)}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* ===================== HEADER ===================== */
+.site{background:var(--navy);color:#fff;position:sticky;top:0;z-index:40}
+.site__bar{
+  display:flex;align-items:center;gap:18px;
+  min-height:64px;
+}
+.logo{display:inline-flex;align-items:baseline;gap:6px;font-weight:900;font-size:26px;letter-spacing:-.03em;flex:none}
+.logo__dot{width:11px;height:11px;border-radius:50%;background:var(--hl);display:inline-block}
+.nav{
+  display:flex;align-items:center;gap:4px;flex:1 1 auto;min-width:0;
+  overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  padding:8px 11px;border-radius:8px;font-size:15.5px;font-weight:700;color:rgba(255,255,255,.88);
+  white-space:nowrap;transition:background-color .18s ease,color .18s ease;
+}
+.nav a:hover{background:rgba(255,255,255,.10);color:#fff}
+.nav a.is-live{color:#FF6B6B}
+.site__search{
+  flex:none;width:38px;height:38px;border-radius:50%;background:var(--hl);color:var(--navy);
+  display:grid;place-items:center;
+}
+@media (max-width:640px){ .logo{font-size:22px} }
+
+/* ===================== EDITORIAL ===================== */
+.strip{
+  display:flex;gap:10px;align-items:center;overflow-x:auto;scrollbar-width:none;
+  background:#F7F8FA;border-bottom:1px solid var(--line);padding-block:9px;font-size:14px;
+}
+.strip::-webkit-scrollbar{display:none}
+.strip b{background:var(--navy);color:#fff;padding:3px 10px;border-radius:6px;font-size:12.5px;white-space:nowrap;flex:none}
+.strip span{color:var(--ink-2);white-space:nowrap}
+
+.sec{padding-block:26px}
+.sec__head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.sec__title{font-size:22px;font-weight:900;letter-spacing:-.02em;background:var(--hl);padding:2px 12px;border-radius:4px}
+.sec__rule{flex:1;height:3px;background:var(--ink);border-radius:2px}
+
+/* grids */
+.grid{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:620px){ .grid{grid-template-columns:repeat(2,1fr)} }
+@media (min-width:980px){ .grid{grid-template-columns:repeat(4,1fr)} }
+
+.top{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:900px){ .top{grid-template-columns:1.35fr 1fr} }
+.top__side{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:620px) and (max-width:899px){ .top__side{grid-template-columns:repeat(2,1fr)} }
+
+/* card */
+.card{
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;
+  display:flex;flex-direction:column;min-width:0;
+  transition:box-shadow .2s ease,transform .2s ease;
+}
+.card:hover{box-shadow:0 10px 26px rgba(16,28,51,.10);transform:translateY(-2px)}
+.card__thumb{
+  position:relative;aspect-ratio:16/9;
+  background:
+    linear-gradient(135deg,#DDE2EA 0%,#C9D1DC 55%,#B9C3D1 100%);
+  display:grid;place-items:center;
+}
+.card__thumb svg{width:34px;height:34px;color:rgba(16,28,51,.26)}
+.card__badge{
+  position:absolute;inset-block-start:10px;inset-inline-start:10px;
+  background:var(--hl);color:var(--ink);font-size:12px;font-weight:800;
+  padding:2px 9px;border-radius:5px;
+}
+.card__body{padding:13px 14px 15px;display:flex;flex-direction:column;gap:7px;flex:1}
+.card__title{font-size:17.5px;line-height:1.35;font-weight:800;letter-spacing:-.02em}
+.card__meta{margin-top:auto;font-size:13px;color:var(--ink-2);display:flex;gap:8px;align-items:center}
+.card__meta .t{color:var(--accent);font-weight:700}
+
+/* lead story */
+.lead-card{position:relative;border-radius:14px;overflow:hidden;min-height:300px;display:flex;
+  background:linear-gradient(135deg,#2A3A57 0%,#16233C 60%,#0E1727 100%);color:#fff}
+@media (min-width:900px){ .lead-card{min-height:420px} }
+.lead-card::before{content:"";position:absolute;inset:0;z-index:1;
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>') center 38% / 44px no-repeat;
+  opacity:.20}
+.lead-card::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(0deg,rgba(6,12,24,.82) 0%,rgba(6,12,24,.15) 55%,rgba(6,12,24,0) 100%)}
+.lead-card__body{position:relative;z-index:2;margin-top:auto;padding:22px}
+.lead-card__badge{display:inline-block;background:var(--hl);color:var(--ink);font-size:12.5px;
+  font-weight:800;padding:3px 10px;border-radius:5px;margin-bottom:10px}
+.lead-card__title{font-size:clamp(24px,3.4vw,36px);line-height:1.18;font-weight:900;letter-spacing:-.03em}
+.lead-card__sub{margin-top:8px;font-size:15.5px;color:rgba(255,255,255,.82);max-width:52ch}
+
+/* ===================== AD BAND ===================== */
+.adband{background:var(--grey);padding-block:26px;margin-block:14px}
+.adband__label{
+  text-align:center;font-size:12.5px;font-weight:600;letter-spacing:.06em;
+  color:#8A909E;margin-bottom:12px;
+}
+
+/* The ad is one link wrapping a <picture>. Two creatives, one breakpoint:
+     > 600px  desktop creative, design size 970x250 (supplied @2x as 1940x500)
+     <= 600px mobile creative,  design size 300x250 (supplied @2x as  600x500)
+   .ad caps the DISPLAYED width at the creative's design width; the image
+   inside is width:100%/height:auto, so each creative keeps its own aspect
+   ratio, never stretches or crops, and simply scales down on a narrower
+   viewport. --ad-max must stay in sync with the media query below. */
+.ad{
+  --ad-max:970px;
+  display:block;width:100%;max-width:var(--ad-max);margin-inline:auto;
+  border-radius:6px;overflow:hidden;line-height:0;
+  transition:transform .22s ease,box-shadow .22s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+@media (max-width:600px){ .ad{--ad-max:300px} }
+.ad:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(16,28,51,.18)}
+.ad picture{display:block}
+.ad img{width:100%;height:auto;display:block}
+
+/* ===================== FOOTER ===================== */
+.foot{background:var(--navy);color:rgba(255,255,255,.72);margin-top:30px;padding-block:26px 30px}
+.foot__nav{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14.5px;font-weight:600;margin-bottom:14px}
+.foot__nav a:hover{color:#fff}
+.foot__note{font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.7}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ======================= HEADER ======================= -->
+<header class="site">
+  <div class="wrap site__bar">
+    <a class="logo" href="index.html" aria-label="מבזק – לעמוד הבית">
+      מבזק<span class="logo__dot" aria-hidden="true"></span>
+    </a>
+    <nav class="nav" aria-label="ניווט ראשי">
+      <a href="#">חדשות</a>
+      <a href="#" class="is-live">LIVE</a>
+      <a href="#">כלכלה</a>
+      <a href="#">ספורט</a>
+      <a href="#">תרבות</a>
+      <a href="#">אוכל</a>
+      <a href="#">בריאות</a>
+      <a href="#">טכנולוגיה</a>
+      <a href="#">מזג אוויר</a>
+    </nav>
+    <span class="site__search" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+    </span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="strip">
+    <b>מבזקים</b>
+    <span>עדכון תנועה: עומסים בכניסה לעיר</span>
+    <span>·</span>
+    <span>הבורסה ננעלה בעליות קלות</span>
+    <span>·</span>
+    <span>מזג האוויר: התחממות לקראת סוף השבוע</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- ============ EDITORIAL ABOVE THE AD ============ -->
+  <section class="wrap sec" aria-label="הכותרות המובילות">
+    <div class="top">
+
+      <article class="lead-card">
+        <div class="lead-card__body">
+          <span class="lead-card__badge">הסיפור המרכזי</span>
+          <h1 class="lead-card__title">ועדת הכספים אישרה את מתווה התקציב לשנה הבאה</h1>
+          <p class="lead-card__sub">הדיון נמשך עד השעות הקטנות של הלילה; ההצבעה במליאה צפויה להתקיים בשבוע הבא.</p>
+        </div>
+      </article>
+
+      <div class="top__side">
+        <article class="card">
+          <div class="card__thumb"><span class="card__badge">כלכלה</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+          </div>
+          <div class="card__body">
+            <h2 class="card__title">מדד המחירים לצרכן נותר ללא שינוי בחודש שעבר</h2>
+            <p class="card__meta"><span class="t">09:41</span><span>·</span><span>מערכת מבזק</span></p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__thumb"><span class="card__badge">ספורט</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+          </div>
+          <div class="card__body">
+            <h2 class="card__title">ניצחון דרמטי בדקה ה-90: כך נראתה שריקת הסיום</h2>
+            <p class="card__meta"><span class="t">08:55</span><span>·</span><span>מערכת מבזק</span></p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="wrap sec" aria-label="עוד בחדשות" style="padding-top:0">
+    <div class="grid">
+      <article class="card">
+        <div class="card__thumb"><span class="card__badge">תרבות</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title">פסטיבל הקיץ נפתח הערב: מה כדאי לראות</h2>
+          <p class="card__meta"><span class="t">10:12</span><span>·</span><span>מגזין</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__thumb"><span class="card__badge">טכנולוגיה</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title">הכלים החדשים שמשנים את שוק העבודה המקומי</h2>
+          <p class="card__meta"><span class="t">10:04</span><span>·</span><span>מערכת מבזק</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__thumb"><span class="card__badge">בריאות</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title">מחקר חדש בודק את הקשר בין שינה לריכוז</h2>
+          <p class="card__meta"><span class="t">09:30</span><span>·</span><span>מערכת מבזק</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__thumb"><span class="card__badge">נדל״ן</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title">כך ייראו שכונות המגורים של העשור הבא</h2>
+          <p class="card__meta"><span class="t">08:20</span><span>·</span><span>מערכת מבזק</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======================= ADVERTISEMENT ======================= -->
+  <!-- Both creatives are used exactly as supplied — swap the PNG files to
+       change them; do not rebuild a banner in HTML/CSS. The width/height
+       attributes carry each creative's own intrinsic ratio so nothing shifts
+       while the image loads.
+
+       ?v=2 is a cache buster. The file names never change, so browsers and the
+       GitHub Pages CDN keep serving a previously cached creative after an
+       upload. BUMP THIS NUMBER (?v=3, ?v=4 …) on BOTH lines below every time
+       you replace the banner images, and the new creative shows up at once for
+       everyone — including people who already opened the page. -->
+  <section class="adband" aria-label="פרסומת">
+    <div class="wrap">
+      <p class="adband__label">פרסומת</p>
+      <a class="ad" href="landing.html" aria-label="לייטוק – הדרך החכמה לדבר אנגלית. למעבר לעמוד המסלולים">
+        <picture>
+          <source media="(max-width:600px)" srcset="litetalk-banner-mobile.png?v=3" width="600" height="500">
+          <img src="litetalk-banner-desktop.png?v=3" width="1940" height="500"
+               alt="לייטוק – הדרך החכמה לדבר אנגלית: שיעורי אנגלית עם קואצ׳ר AI אישי דובר עברית ואנגלית">
+        </picture>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ EDITORIAL BELOW THE AD ============ -->
+  <section class="wrap sec" aria-labelledby="more-title">
+    <div class="sec__head">
+      <span class="sec__rule" aria-hidden="true"></span>
+      <h2 class="sec__title" id="more-title">חדשות</h2>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <div class="card__thumb"><span class="card__badge">בארץ</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title">עבודות תשתית יסגרו את הציר המרכזי בסוף השבוע</h2>
+          <p class="card__meta"><span class="t">07:58</span><span>·</span><span>מערכת מבזק</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__thumb"><span class="card__badge">חינוך</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title">שנת הלימודים נפתחה: מה השתנה בתוכנית הלימודים</h2>
+          <p class="card__meta"><span class="t">07:31</span><span>·</span><span>מערכת מבזק</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__thumb"><span class="card__badge">בעולם</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title">ועידת האקלים: המדינות המשתתפות הציגו יעדים חדשים</h2>
+          <p class="card__meta"><span class="t">06:49</span><span>·</span><span>מערכת מבזק</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__thumb"><span class="card__badge">צרכנות</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M4 17l5-5 4.5 4.5L16 14l4 4"/></svg>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title">מה באמת עומד מאחורי מבצעי סוף העונה</h2>
+          <p class="card__meta"><span class="t">06:15</span><span>·</span><span>מערכת מבזק</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <nav class="foot__nav" aria-label="ניווט תחתון">
+      <a href="#">אודות</a><a href="#">צור קשר</a><a href="#">פרסמו אצלנו</a>
+      <a href="#">תנאי שימוש</a><a href="#">מדיניות פרטיות</a><a href="#">נגישות</a>
+    </nav>
+    <p class="foot__note">
+      ״מבזק״ הוא אתר חדשות בדיוני שנוצר לצורכי אב־טיפוס פנימי בלבד. כל התכנים הם טקסט מילוי ואינם מהווים דיווח חדשותי.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
